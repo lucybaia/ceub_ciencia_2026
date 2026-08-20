@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escola Virtual</title>
+</head>
+
+<body>
+    <h1>Escola Virtual</h1>
+    <h2>Fomulário de Pré-Matrícula</h2>
+    <hr>
+    <br>
+
+    <fieldset>
+        <div>
+            <h3>Dados Pessoais:</h3>
+            <ul>
+                <li>Nome do Aluno: <input type="text"></li>
+                <li>Nascimento (dd/mm/aaaa): <input type="date"></li>
+                <li>Nome da Mãe: <input type="text"></li>
+                <li>Nome do Pai: <input type="text"></li>
+                <li>Telefone: DDD (<input type="number">) Tel:<input type="number"> Ramal: <input type="number"></li>
+                <li>E-Mail: <input type="email"></li>
+            </ul>
+        </div>
+    </fieldset>
+    <fieldset>
+        <h3>Informações de Matrícula:</h3>
+        <div>
+            Série: <select>
+                <option>
+                    Prézinho
+                </option>
+                <option>
+                    Fundamental 1
+                </option>
+                <option>
+                    Fundamental 2
+                </option>
+                <option>
+                    Ensino Médio
+                </option>
+            </select>
+        </div>
+        <br>
+        <div>
+            <p>Turno:</p>
+
+            <input type="radio" name="turno" value="manha"><br>
+            <label for="manha">Manhã</label>
+
+            <input type="radio" name="turno" value="tarde"><br>
+            <label for="tarde">Tarde</label>
+        </div>
+        <div>
+            <p>Atividades Extracurriculares</p>
+            <input type="checkbox">Informática
+            <input type="checkbox">Música
+            <input type="checkbox">Balé
+            <input type="checkbox">Pintura
+            <input type="checkbox">Judô
+            <input type="checkbox">Futebol
+        </div>
+    </fieldset>
+    <button>Enviar Formulário</button>
+    <button>Limpar Campos</button>
+</body>
+
+</html>
