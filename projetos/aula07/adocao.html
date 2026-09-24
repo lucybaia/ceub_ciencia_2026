@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Pets resgatados pelo CEUB que não têm tutor e estão disponíveis para adoção.">
+    <meta name="author" content="CEUB">
+
+    <title>CEUB Pets - Pets para adoção</title>
+
+    <!-- Ícones: Font Awesome 5.15.3 via CDN (o all.css local depende da pasta /webfonts, que não veio no projeto) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Fonte -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Template base + tema CEUB (a ordem importa: o tema sobrescreve o template) -->
+    <link href="sb-admin-2.css" rel="stylesheet">
+    <link href="ceub-pets.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav sidebar-ceub sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Marca -->
+            <a class="sidebar-brand sidebar-brand-ceub d-flex flex-column align-items-center justify-content-center" href="index.html">
+                <img src="logo-ceub-versao-condensada.jpg" alt="CEUB" width="150" height="73">
+                <span class="sidebar-brand-nome">Gestão de pets</span>
+            </a>
+
+            <hr class="sidebar-divider my-0">
+
+            <!-- Painel -->
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-fw fa-paw"></i>
+                    <span>Painel</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">Casos</div>
+
+            <!-- Pets -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePets"
+                    aria-expanded="false" aria-controls="collapsePets">
+                    <i class="fas fa-fw fa-dog"></i>
+                    <span>Pets</span>
+                </a>
+                <div id="collapsePets" class="collapse" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Por situação</h6>
+                        <a class="collapse-item" href="index.html#casos">Perdidos</a>
+                        <a class="collapse-item" href="index.html#casos">Avistados</a>
+                        <a class="collapse-item" href="index.html#casos">Reunidos com o tutor</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Registrar -->
+            <li class="nav-item">
+                <a class="nav-link" href="index.html#registrar">
+                    <i class="fas fa-fw fa-plus-circle"></i>
+                    <span>Registrar pet perdido</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">Adoção</div>
+
+            <!-- Adoção (tela nova: adocao.html) -->
+            <li class="nav-item active">
+                <a class="nav-link" href="adocao.html" aria-current="page">
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>Pets para adoção</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">Comunidade</div>
+
+            <!-- Tutores -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTutores"
+                    aria-expanded="false" aria-controls="collapseTutores">
+                    <i class="fas fa-fw fa-user-friends"></i>
+                    <span>Tutores</span>
+                </a>
+                <div id="collapseTutores" class="collapse" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Cadastro</h6>
+                        <a class="collapse-item" href="#">Cadastrar tutor</a>
+                        <a class="collapse-item" href="#">Listar tutores</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Avistamentos -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-eye"></i>
+                    <span>Avistamentos</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Recolher sidebar -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle" type="button" aria-label="Recolher menu lateral"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top">
+
+                    <!-- Abrir/fechar sidebar no celular -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3" type="button" aria-label="Abrir menu lateral">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Busca -->
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" role="search" data-busca-form>
+                        <div class="input-group">
+                            <input type="search" class="form-control border-0 small" id="busca"
+                                placeholder="Buscar por nome, raça ou local" aria-label="Buscar pets para adoção" data-busca>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit" aria-label="Buscar">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Busca (somente celular) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Buscar">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search" role="search" data-busca-form>
+                                    <div class="input-group">
+                                        <input type="search" class="form-control border-0 small"
+                                            placeholder="Buscar por nome, raça ou local" aria-label="Buscar pets para adoção" data-busca>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="submit" aria-label="Buscar">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Usuário -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline small nome-usuario">Marcela Lucy</span>
+                                <span class="avatar-iniciais" aria-hidden="true">ML</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Perfil
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-heart fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Meus pedidos de adoção
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Configurações
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Sair
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Conteúdo da página -->
+                <main class="container-fluid" id="conteudo">
+
+                    <header class="cabecalho-pagina">
+                        <div>
+                            <h1 class="titulo-pagina">Pets para adoção</h1>
+                            <p class="subtitulo-pagina">Animais que o CEUB encontrou no campus e arredores, sem tutor identificado. Todos passaram por avaliação veterinária.</p>
+                        </div>
+                        <ul class="resumo-casos" aria-label="Resumo das adoções">
+                            <li class="resumo-perdidos"><strong data-contador-adocao="disponivel">0</strong><span>disponíveis</span></li>
+                            <li><strong data-contador-adocao="processo">0</strong><span>em processo</span></li>
+                            <li><strong data-contador-adocao="adotado">0</strong><span>adotados</span></li>
+                        </ul>
+                    </header>
+
+                    <div id="alerta-adocao" class="alert alerta-ceub d-none" role="status" tabindex="-1"></div>
+
+                    <section class="painel" aria-labelledby="titulo-tabela">
+                        <h2 class="painel-titulo" id="titulo-tabela">Pets resgatados</h2>
+                        <p class="painel-descricao">Filtre pelo tipo de pet que cabe na sua rotina. Um pet só aparece aqui depois de 15 dias sem que o tutor seja encontrado.</p>
+
+                        <div class="barra-filtros">
+                            <div class="campo-filtro campo-busca">
+                                <label for="filtro-busca">Buscar</label>
+                                <input class="form-control" id="filtro-busca" type="search" placeholder="Nome, raça ou local" data-busca>
+                            </div>
+                            <div class="campo-filtro">
+                                <label for="filtro-especie">Espécie</label>
+                                <select class="custom-select" id="filtro-especie">
+                                    <option value="">Todas</option>
+                                    <option value="cao">Cães</option>
+                                    <option value="gato">Gatos</option>
+                                </select>
+                            </div>
+                            <div class="campo-filtro">
+                                <label for="filtro-porte">Porte</label>
+                                <select class="custom-select" id="filtro-porte">
+                                    <option value="">Todos</option>
+                                    <option value="pequeno">Pequeno</option>
+                                    <option value="medio">Médio</option>
+                                    <option value="grande">Grande</option>
+                                </select>
+                            </div>
+                            <div class="campo-filtro">
+                                <label for="filtro-situacao">Situação</label>
+                                <select class="custom-select" id="filtro-situacao">
+                                    <option value="">Todas</option>
+                                    <option value="disponivel">Disponível</option>
+                                    <option value="processo">Em processo</option>
+                                    <option value="adotado">Adotado</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-outline-ceub" type="button" id="limpar-filtros">Limpar filtros</button>
+                        </div>
+
+                        <p class="contagem-tabela" id="contagem-tabela" aria-live="polite"></p>
+
+                        <div class="tabela-rolagem">
+                            <table class="tabela-adocao" id="tabela-adocao">
+                                <caption class="sr-only">Pets resgatados pelo CEUB disponíveis para adoção. Clique no título de uma coluna para ordenar.</caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col" aria-sort="ascending" data-coluna="nome">
+                                            <button class="ordenar" type="button">Pet <i class="fas fa-sort" aria-hidden="true"></i></button>
+                                        </th>
+                                        <th scope="col" aria-sort="none" data-coluna="idade">
+                                            <button class="ordenar" type="button">Idade <i class="fas fa-sort" aria-hidden="true"></i></button>
+                                        </th>
+                                        <th scope="col">Perfil</th>
+                                        <th scope="col">Saúde</th>
+                                        <th scope="col" aria-sort="none" data-coluna="chegada">
+                                            <button class="ordenar" type="button">Encontrado em <i class="fas fa-sort" aria-hidden="true"></i></button>
+                                        </th>
+                                        <th scope="col">Situação</th>
+                                        <th scope="col" class="col-acao"><span class="sr-only">Ação</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="corpo-tabela">
+                                        <tr data-especie="cao" data-porte="medio" data-situacao="disponivel" data-nome="Paçoca" data-idade="24" data-chegada="2026-08-12">
+                                            <td>
+                                                <div class="pet-celula">
+                                                    <span class="caso-avatar" aria-hidden="true"><i class="fas fa-dog"></i></span>
+                                                    <div>
+                                                        <span class="pet-nome">Paçoca</span>
+                                                        <span class="pet-raca">Cão, sem raça definida</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="col-curta">2 anos</td>
+                                            <td>Macho, porte médio</td>
+                                            <td>
+                                                <div class="etiquetas-saude">
+                                                    <span class="etiqueta"><i class="fas fa-check" aria-hidden="true"></i>Vacinado</span>
+                                                    <span class="etiqueta"><i class="fas fa-check" aria-hidden="true"></i>Castrado</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span>Campus Asa Norte, bloco 5</span>
+                                                <time class="texto-secundario" datetime="2026-08-12">em 12/08/2026</time>
+                                            </td>
+                                            <td><span class="selo selo-disponivel">Disponível</span></td>
+                                            <td class="col-acao"><button class="btn btn-primary btn-sm btn-adotar" type="button" data-adotar>Quero adotar</button></td>
+                                        </tr>
+                                        <tr data-especie="gato" data-porte="pequeno" data-situacao="disponivel" data-nome="Luna" data-idade="8" data-chegada="2026-09-03">
+                                            <td>
+                                                <div class="pet-celula">
+                                                    <span class="caso-avatar" aria-hidden="true"><i class="fas fa-cat"></i></span>
+                                                    <div>
+                                                        <span class="pet-nome">Luna</span>
+                                                        <span class="pet-raca">Gato, sem raça definida</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="col-curta">8 meses</td>
+                                            <td>Fêmea, porte pequeno</td>
+                                            <td>
+                                                <div class="etiquetas-saude">
+                                                    <span class="etiqueta"><i class="fas fa-check" aria-hidden="true"></i>Vacinado</span>
+                                                    <span class="etiqueta etiqueta-pendente"><i class="fas fa-clock" aria-hidden="true"></i>Castração agendada</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span>Estacionamento do bloco 3</span>
+                                                <time class="texto-secundario" datetime="2026-09-03">em 03/09/2026</time>
+                                            </td>
+                                            <td><span class="selo selo-disponivel">Disponível</span></td>
+                                            <td class="col-acao"><button class="btn btn-primary btn-sm btn-adotar" type="button" data-adotar>Quero adotar</button></td>
+                                        </tr>
+                                        <tr data-especie="gato" data-porte="pequeno" data-situacao="processo" data-nome="Tigrão" data-idade="36" data-chegada="2026-07-27">
+                                            <td>
+                                                <div class="pet-celula">
+                                                    <span class="caso-avatar" aria-hidden="true"><i class="fas fa-cat"></i></span>
+                                                    <div>
+                                                        <span class="pet-nome">Tigrão</span>
+                                                        <span class="pet-raca">Gato, sem raça definida</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="col-curta">3 anos</td>
+                                            <td>Macho, porte pequeno</td>
+                                            <td>
+                                                <div class="etiquetas-saude">
+                                                    <span class="etiqueta"><i class="fas fa-check" aria-hidden="true"></i>Vacinado</span>
+                                                    <span class="etiqueta"><i class="fas fa-check" aria-hidden="true"></i>Castrado</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span>Campus Taguatinga</span>
+                                                <time class="texto-secundario" datetime="2026-07-27">em 27/07/2026</time>
+                                            </td>
+                                            <td><span class="selo selo-processo">Em processo</span></td>
+                                            <td class="col-acao"><span class="texto-secundario">Entrevista marcada</span></td>
+                                        </tr>
+                                        <tr data-especie="cao" data-porte="pequeno" data-situacao="disponivel" data-nome="Duquesa" data-idade="72" data-chegada="2026-06-15">
+                                            <td>
+                                                <div class="pet-celula">
+                                                    <span class="caso-avatar" aria-hidden="true"><i class="fas fa-dog"></i></span>
+                                                    <div>
+                                                        <span class="pet-nome">Duquesa</span>
+                                                        <span class="pet-raca">Cão, Pinscher</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="col-curta">6 anos</td>
+                                            <td>Fêmea, porte pequeno</td>
+                                            <td>
+                                                <div class="etiquetas-saude">
+                                                    <span class="etiqueta"><i class="fas fa-check" aria-hidden="true"></i>Vacinado</span>
+                                                    <span class="etiqueta"><i class="fas fa-check" aria-hidden="true"></i>Castrado</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span>SEPN 707/907</span>
+                                                <time class="texto-secundario" datetime="2026-06-15">em 15/06/2026</time>
+                                            </td>
+                                            <td><span class="selo selo-disponivel">Disponível</span></td>
+                                            <td class="col-acao"><button class="btn btn-primary btn-sm btn-adotar" type="button" data-adotar>Quero adotar</button></td>
+                                        </tr>
+                                        <tr data-especie="cao" data-porte="medio" data-situacao="disponivel" data-nome="Bento" data-idade="4" data-chegada="2026-09-10">
+                                            <td>
+                                                <div class="pet-celula">
+                                                    <span class="caso-avatar" aria-hidden="true"><i class="fas fa-dog"></i></span>
+                                                    <div>
+                                                        <span class="pet-nome">Bento</span>
+                                                        <span class="pet-raca">Cão, sem raça definida</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="col-curta">4 meses</td>
+                                            <td>Macho, porte médio</td>
+                                            <td>
+                                                <div class="etiquetas-saude">
+                                                    <span class="etiqueta etiqueta-pendente"><i class="fas fa-clock" aria-hidden="true"></i>Vacinas em andamento</span>
+                                                    <span class="etiqueta etiqueta-pendente"><i class="fas fa-clock" aria-hidden="true"></i>Castração agendada</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span>Entrada da biblioteca</span>
+                                                <time class="texto-secundario" datetime="2026-09-10">em 10/09/2026</time>
+                                            </td>
+                                            <td><span class="selo selo-disponivel">Disponível</span></td>
+                                            <td class="col-acao"><button class="btn btn-primary btn-sm btn-adotar" type="button" data-adotar>Quero adotar</button></td>
+                                        </tr>
+                                        <tr class="linha-adotado" data-especie="cao" data-porte="grande" data-situacao="adotado" data-nome="Amora" data-idade="60" data-chegada="2026-05-20">
+                                            <td>
+                                                <div class="pet-celula">
+                                                    <span class="caso-avatar" aria-hidden="true"><i class="fas fa-dog"></i></span>
+                                                    <div>
+                                                        <span class="pet-nome">Amora</span>
+                                                        <span class="pet-raca">Cão, Labrador (mestiça)</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="col-curta">5 anos</td>
+                                            <td>Fêmea, porte grande</td>
+                                            <td>
+                                                <div class="etiquetas-saude">
+                                                    <span class="etiqueta"><i class="fas fa-check" aria-hidden="true"></i>Vacinado</span>
+                                                    <span class="etiqueta"><i class="fas fa-check" aria-hidden="true"></i>Castrado</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span>Via L2 Norte, em frente ao campus</span>
+                                                <time class="texto-secundario" datetime="2026-05-20">em 20/05/2026</time>
+                                            </td>
+                                            <td><span class="selo selo-adotado">Adotado</span></td>
+                                            <td class="col-acao"><span class="texto-secundario">Já tem família</span></td>
+                                        </tr>
+                                        <tr data-especie="gato" data-porte="pequeno" data-situacao="disponivel" data-nome="Sushi" data-idade="12" data-chegada="2026-09-01">
+                                            <td>
+                                                <div class="pet-celula">
+                                                    <span class="caso-avatar" aria-hidden="true"><i class="fas fa-cat"></i></span>
+                                                    <div>
+                                                        <span class="pet-nome">Sushi</span>
+                                                        <span class="pet-raca">Gato, Siamês (mestiço)</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="col-curta">1 ano</td>
+                                            <td>Macho, porte pequeno</td>
+                                            <td>
+                                                <div class="etiquetas-saude">
+                                                    <span class="etiqueta"><i class="fas fa-check" aria-hidden="true"></i>Vacinado</span>
+                                                    <span class="etiqueta etiqueta-pendente"><i class="fas fa-clock" aria-hidden="true"></i>Castração agendada</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span>Cantina do bloco 9</span>
+                                                <time class="texto-secundario" datetime="2026-09-01">em 01/09/2026</time>
+                                            </td>
+                                            <td><span class="selo selo-disponivel">Disponível</span></td>
+                                            <td class="col-acao"><button class="btn btn-primary btn-sm btn-adotar" type="button" data-adotar>Quero adotar</button></td>
+                                        </tr>
+                                        <tr data-especie="cao" data-porte="grande" data-situacao="disponivel" data-nome="Fubá" data-idade="84" data-chegada="2026-04-02">
+                                            <td>
+                                                <div class="pet-celula">
+                                                    <span class="caso-avatar" aria-hidden="true"><i class="fas fa-dog"></i></span>
+                                                    <div>
+                                                        <span class="pet-nome">Fubá</span>
+                                                        <span class="pet-raca">Cão, sem raça definida</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="col-curta">7 anos</td>
+                                            <td>Macho, porte grande</td>
+                                            <td>
+                                                <div class="etiquetas-saude">
+                                                    <span class="etiqueta"><i class="fas fa-check" aria-hidden="true"></i>Vacinado</span>
+                                                    <span class="etiqueta"><i class="fas fa-check" aria-hidden="true"></i>Castrado</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span>Campus Asa Norte, quadra de esportes</span>
+                                                <time class="texto-secundario" datetime="2026-04-02">em 02/04/2026</time>
+                                            </td>
+                                            <td><span class="selo selo-disponivel">Disponível</span></td>
+                                            <td class="col-acao"><button class="btn btn-primary btn-sm btn-adotar" type="button" data-adotar>Quero adotar</button></td>
+                                        </tr>
+                                        <tr data-especie="gato" data-porte="pequeno" data-situacao="processo" data-nome="Pérola" data-idade="24" data-chegada="2026-08-18">
+                                            <td>
+                                                <div class="pet-celula">
+                                                    <span class="caso-avatar" aria-hidden="true"><i class="fas fa-cat"></i></span>
+                                                    <div>
+                                                        <span class="pet-nome">Pérola</span>
+                                                        <span class="pet-raca">Gato, sem raça definida</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="col-curta">2 anos</td>
+                                            <td>Fêmea, porte pequeno</td>
+                                            <td>
+                                                <div class="etiquetas-saude">
+                                                    <span class="etiqueta"><i class="fas fa-check" aria-hidden="true"></i>Vacinado</span>
+                                                    <span class="etiqueta"><i class="fas fa-check" aria-hidden="true"></i>Castrado</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span>Estacionamento do bloco 1</span>
+                                                <time class="texto-secundario" datetime="2026-08-18">em 18/08/2026</time>
+                                            </td>
+                                            <td><span class="selo selo-processo">Em processo</span></td>
+                                            <td class="col-acao"><span class="texto-secundario">Entrevista marcada</span></td>
+                                        </tr>
+                                        <tr data-especie="cao" data-porte="medio" data-situacao="disponivel" data-nome="Zeca" data-idade="12" data-chegada="2026-09-21">
+                                            <td>
+                                                <div class="pet-celula">
+                                                    <span class="caso-avatar" aria-hidden="true"><i class="fas fa-dog"></i></span>
+                                                    <div>
+                                                        <span class="pet-nome">Zeca</span>
+                                                        <span class="pet-raca">Cão, sem raça definida</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="col-curta">1 ano</td>
+                                            <td>Macho, porte médio</td>
+                                            <td>
+                                                <div class="etiquetas-saude">
+                                                    <span class="etiqueta"><i class="fas fa-check" aria-hidden="true"></i>Vacinado</span>
+                                                    <span class="etiqueta etiqueta-pendente"><i class="fas fa-clock" aria-hidden="true"></i>Castração agendada</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span>Ginásio</span>
+                                                <time class="texto-secundario" datetime="2026-09-21">em 21/09/2026</time>
+                                            </td>
+                                            <td><span class="selo selo-disponivel">Disponível</span></td>
+                                            <td class="col-acao"><button class="btn btn-primary btn-sm btn-adotar" type="button" data-adotar>Quero adotar</button></td>
+                                        </tr>
+                                        <tr class="linha-vazia d-none" id="linha-vazia">
+                                            <td colspan="7">Nenhum pet com esses filtros. Tente outro porte ou espécie, ou limpe os filtros.</td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                </main>
+                <!-- Fim do conteúdo -->
+
+            </div>
+
+            <!-- Footer -->
+            <footer class="sticky-footer">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; CEUB 2026</span>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Voltar ao topo -->
+    <a class="scroll-to-top rounded" href="#page-top" aria-label="Voltar ao topo">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Modal: quero adotar -->
+    <div class="modal fade" id="modalAdotar" tabindex="-1" role="dialog" aria-labelledby="modalAdotarLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form class="modal-content" id="form-adocao" novalidate>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAdotarLabel">Quero adotar</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-pet-resumo" id="modal-pet-resumo"></div>
+
+                    <div class="form-group">
+                        <label for="adotante-nome">Seu nome <span class="obrigatorio">*</span></label>
+                        <input class="form-control" id="adotante-nome" type="text" autocomplete="name" required>
+                        <div class="invalid-feedback">Informe seu nome.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="adotante-telefone">Telefone ou WhatsApp <span class="obrigatorio">*</span></label>
+                        <input class="form-control" id="adotante-telefone" type="tel" placeholder="(61) 91234-5678" autocomplete="tel" pattern="\(\d{2}\) \d{4,5}-\d{4}" required>
+                        <div class="invalid-feedback">Use o formato (61) 91234-5678.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="adotante-moradia">Onde o pet vai morar</label>
+                        <select class="custom-select" id="adotante-moradia">
+                            <option value="casa">Casa com quintal</option>
+                            <option value="casa-sem-quintal">Casa sem quintal</option>
+                            <option value="apartamento">Apartamento</option>
+                        </select>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input class="custom-control-input" id="adotante-outros-pets" type="checkbox">
+                        <label class="custom-control-label" for="adotante-outros-pets">Já tenho outros pets em casa</label>
+                    </div>
+                    <p class="texto-ajuda mt-3 mb-0">A equipe do CEUB liga para marcar uma conversa e a visita ao pet antes da adoção.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-ceub" type="button" data-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" type="submit">Enviar pedido de adoção</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de saída -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Sair da conta?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">Seus pedidos de adoção continuam registrados.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-ceub" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="#">Sair</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="jquery.js"></script>
+    <script src="bootstrap_bundle.js"></script>
+    <script src="ceub-layout.js"></script>
+
+    <script>
+    (function ($) {
+        'use strict';
+
+        var $corpo = $('#corpo-tabela');
+        var $linhaVazia = $('#linha-vazia');
+        var ordem = { coluna: 'nome', direcao: 'ascending' };
+        var linhaEscolhida = null;
+
+        function normalizar(texto) {
+            return (texto || '').toString().toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function linhasPets() {
+            return $corpo.children('tr').not($linhaVazia);
+        }
+
+        /* ---------- Contadores ---------- */
+        function atualizarContadores() {
+            ['disponivel', 'processo', 'adotado'].forEach(function (s) {
+                $('[data-contador-adocao="' + s + '"]').text(linhasPets().filter('[data-situacao="' + s + '"]').length);
+            });
+        }
+
+        /* ---------- Filtros ---------- */
+        function aplicarFiltros() {
+            var termo = normalizar($('#filtro-busca').val().trim());
+            var especie = $('#filtro-especie').val();
+            var porte = $('#filtro-porte').val();
+            var situacao = $('#filtro-situacao').val();
+            var total = linhasPets().length;
+            var visiveis = 0;
+
+            linhasPets().each(function () {
+                var $l = $(this);
+                var ok = (!especie || $l.attr('data-especie') === especie) &&
+                         (!porte || $l.attr('data-porte') === porte) &&
+                         (!situacao || $l.attr('data-situacao') === situacao) &&
+                         (!termo || normalizar($l.text()).indexOf(termo) !== -1);
+                $l.toggleClass('d-none', !ok);
+                if (ok) { visiveis++; }
+            });
+
+            $linhaVazia.toggleClass('d-none', visiveis > 0);
+            $('#contagem-tabela').text(visiveis === total
+                ? total + ' pets cadastrados'
+                : 'Mostrando ' + visiveis + ' de ' + total + ' pets');
+        }
+
+        $('#filtro-especie, #filtro-porte, #filtro-situacao').on('change', aplicarFiltros);
+
+        // A busca da topbar e a do painel ficam sincronizadas
+        $('[data-busca]').on('input', function () {
+            $('[data-busca]').not(this).val($(this).val());
+            aplicarFiltros();
+        });
+
+        $('[data-busca-form]').on('submit', function (e) {
+            e.preventDefault();
+            document.getElementById('tabela-adocao').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        $('#limpar-filtros').on('click', function () {
+            $('[data-busca]').val('');
+            $('#filtro-especie, #filtro-porte, #filtro-situacao').val('');
+            aplicarFiltros();
+        });
+
+        /* ---------- Ordenação ---------- */
+        function ordenar() {
+            var col = ordem.coluna;
+            var fator = ordem.direcao === 'ascending' ? 1 : -1;
+            var linhas = linhasPets().get().sort(function (a, b) {
+                var va = a.getAttribute('data-' + col);
+                var vb = b.getAttribute('data-' + col);
+                if (col === 'idade') { return (Number(va) - Number(vb)) * fator; }
+                return va.localeCompare(vb, 'pt-BR') * fator;
+            });
+            $corpo.prepend(linhas);
+
+            $('#tabela-adocao th[data-coluna]').each(function () {
+                var ativa = $(this).data('coluna') === col;
+                $(this).attr('aria-sort', ativa ? ordem.direcao : 'none');
+                $(this).find('i')
+                    .removeClass('fa-sort fa-sort-up fa-sort-down')
+                    .addClass(!ativa ? 'fa-sort' : (ordem.direcao === 'ascending' ? 'fa-sort-up' : 'fa-sort-down'));
+            });
+        }
+
+        $('#tabela-adocao th[data-coluna] .ordenar').on('click', function () {
+            var col = $(this).closest('th').data('coluna');
+            ordem.direcao = (ordem.coluna === col && ordem.direcao === 'ascending') ? 'descending' : 'ascending';
+            ordem.coluna = col;
+            ordenar();
+        });
+
+        /* ---------- Pedido de adoção ---------- */
+        var formAdocao = document.getElementById('form-adocao');
+
+        $corpo.on('click', '[data-adotar]', function () {
+            linhaEscolhida = $(this).closest('tr');
+            var $celula = linhaEscolhida.find('.pet-celula').clone();
+            $('#modal-pet-resumo').empty().append($celula.children());
+            $('#modalAdotarLabel').text('Quero adotar ' + linhaEscolhida.attr('data-nome'));
+            $('#modalAdotar').modal('show');
+        });
+
+        $('#modalAdotar').on('shown.bs.modal', function () {
+            $('#adotante-nome').trigger('focus');
+        }).on('hidden.bs.modal', function () {
+            formAdocao.reset();
+            formAdocao.classList.remove('was-validated');
+        });
+
+        $('#adotante-telefone').on('input', function () {
+            var d = this.value.replace(/\D/g, '').slice(0, 11);
+            var f = d;
+            if (d.length > 2) { f = '(' + d.slice(0, 2) + ') ' + d.slice(2); }
+            if (d.length > 6) {
+                var meio = d.length === 11 ? 7 : 6;
+                f = '(' + d.slice(0, 2) + ') ' + d.slice(2, meio) + '-' + d.slice(meio);
+            }
+            this.value = f;
+        });
+
+        formAdocao.addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (!formAdocao.checkValidity()) {
+                formAdocao.classList.add('was-validated');
+                formAdocao.querySelector(':invalid').focus();
+                return;
+            }
+
+            var nomePet = linhaEscolhida.attr('data-nome');
+            linhaEscolhida.attr('data-situacao', 'processo');
+            linhaEscolhida.find('.selo').attr('class', 'selo selo-processo').text('Em processo');
+            linhaEscolhida.find('.col-acao').html('<span class="texto-secundario">Pedido enviado</span>');
+
+            $('#modalAdotar').modal('hide');
+            $('#alerta-adocao')
+                .text('Pedido de adoção de ' + nomePet + ' enviado. A equipe do CEUB entra em contato para marcar a visita.')
+                .removeClass('d-none')
+                .trigger('focus');
+
+            atualizarContadores();
+            aplicarFiltros();
+        });
+
+        ordenar();
+        atualizarContadores();
+        aplicarFiltros();
+
+    })(jQuery);
+    </script>
+
+</body>
+
+</html>

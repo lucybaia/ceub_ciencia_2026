@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Gestão de pets perdidos: registre desaparecimentos, acompanhe avistamentos e casos resolvidos.">
+    <meta name="author" content="CEUB">
+
+    <title>CEUB Pets - Pets perdidos</title>
+
+    <!-- Ícones: Font Awesome 5.15.3 via CDN (o all.css local depende da pasta /webfonts, que não veio no projeto) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Fonte -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Template base + tema CEUB (a ordem importa: o tema sobrescreve o template) -->
+    <link href="sb-admin-2.css" rel="stylesheet">
+    <link href="ceub-pets.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav sidebar-ceub sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Marca -->
+            <a class="sidebar-brand sidebar-brand-ceub d-flex flex-column align-items-center justify-content-center" href="index.html">
+                <img src="logo-ceub-versao-condensada.jpg" alt="CEUB" width="150" height="73">
+                <span class="sidebar-brand-nome">Gestão de pets</span>
+            </a>
+
+            <hr class="sidebar-divider my-0">
+
+            <!-- Painel -->
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html" aria-current="page">
+                    <i class="fas fa-fw fa-paw"></i>
+                    <span>Painel</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">Casos</div>
+
+            <!-- Pets -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePets"
+                    aria-expanded="false" aria-controls="collapsePets">
+                    <i class="fas fa-fw fa-dog"></i>
+                    <span>Pets</span>
+                </a>
+                <div id="collapsePets" class="collapse" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Por situação</h6>
+                        <a class="collapse-item" href="#casos" data-filtro-link="perdido">Perdidos</a>
+                        <a class="collapse-item" href="#casos" data-filtro-link="avistado">Avistados</a>
+                        <a class="collapse-item" href="#casos" data-filtro-link="reunido">Reunidos com o tutor</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Registrar -->
+            <li class="nav-item">
+                <a class="nav-link" href="#registrar">
+                    <i class="fas fa-fw fa-plus-circle"></i>
+                    <span>Registrar pet perdido</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">Adoção</div>
+
+            <!-- Adoção (tela nova: adocao.html) -->
+            <li class="nav-item">
+                <a class="nav-link" href="adocao.html">
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>Pets para adoção</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">Comunidade</div>
+
+            <!-- Tutores -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTutores"
+                    aria-expanded="false" aria-controls="collapseTutores">
+                    <i class="fas fa-fw fa-user-friends"></i>
+                    <span>Tutores</span>
+                </a>
+                <div id="collapseTutores" class="collapse" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Cadastro</h6>
+                        <a class="collapse-item" href="#">Cadastrar tutor</a>
+                        <a class="collapse-item" href="#">Listar tutores</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Avistamentos -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-eye"></i>
+                    <span>Avistamentos</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Recolher sidebar -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle" type="button" aria-label="Recolher menu lateral"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top">
+
+                    <!-- Abrir/fechar sidebar no celular -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3" type="button" aria-label="Abrir menu lateral">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Busca -->
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" role="search" data-busca-form>
+                        <div class="input-group">
+                            <input type="search" class="form-control border-0 small" id="busca"
+                                placeholder="Buscar por nome, raça ou bairro" aria-label="Buscar casos" data-busca>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit" aria-label="Buscar">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Busca (somente celular) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Buscar">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search" role="search" data-busca-form>
+                                    <div class="input-group">
+                                        <input type="search" class="form-control border-0 small"
+                                            placeholder="Buscar por nome, raça ou bairro" aria-label="Buscar casos" data-busca>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="submit" aria-label="Buscar">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Usuário -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline small nome-usuario">Marcela Lucy</span>
+                                <span class="avatar-iniciais" aria-hidden="true">ML</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Perfil
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-paw fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Meus pets
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Configurações
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Sair
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Conteúdo da página -->
+                <main class="container-fluid" id="conteudo">
+
+                    <header class="cabecalho-pagina">
+                        <div>
+                            <h1 class="titulo-pagina">Pets perdidos</h1>
+                            <p class="subtitulo-pagina">Registre um desaparecimento, acompanhe avistamentos e marque quando o pet voltar para casa.</p>
+                        </div>
+                        <ul class="resumo-casos" aria-label="Resumo dos casos">
+                            <li class="resumo-perdidos"><strong data-contador="perdido">0</strong><span>perdidos</span></li>
+                            <li><strong data-contador="avistado">0</strong><span>avistados</span></li>
+                            <li><strong data-contador="reunido">0</strong><span>reunidos</span></li>
+                        </ul>
+                    </header>
+
+                    <div id="alerta-registro" class="alert alerta-ceub d-none" role="status" tabindex="-1"></div>
+
+                    <div class="row">
+
+                        <!-- Formulário -->
+                        <div class="col-xl-7">
+                            <section class="painel" id="registrar" aria-labelledby="titulo-registrar">
+                                <h2 class="painel-titulo" id="titulo-registrar">Registrar pet perdido</h2>
+                                <p class="painel-descricao">Campos com <span class="obrigatorio">*</span> são obrigatórios. Quanto mais detalhes, mais fácil alguém reconhecer o pet.</p>
+
+                                <form id="form-pet" novalidate>
+
+                                    <fieldset class="grupo-form">
+                                        <legend>O pet</legend>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="nome-pet">Nome do pet <span class="obrigatorio">*</span></label>
+                                                <input class="form-control" id="nome-pet" name="nome_pet" type="text" placeholder="Thor" required>
+                                                <div class="invalid-feedback">Informe o nome pelo qual o pet atende.</div>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="especie">Espécie <span class="obrigatorio">*</span></label>
+                                                <select class="custom-select" id="especie" name="especie" required>
+                                                    <option value="" selected>Escolha...</option>
+                                                    <option value="cao">Cão</option>
+                                                    <option value="gato">Gato</option>
+                                                    <option value="ave">Ave</option>
+                                                    <option value="outro">Outro</option>
+                                                </select>
+                                                <div class="invalid-feedback">Escolha a espécie.</div>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="raca">Raça</label>
+                                                <input class="form-control" id="raca" name="raca" type="text" placeholder="Sem raça definida">
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="porte">Porte</label>
+                                                <select class="custom-select" id="porte" name="porte">
+                                                    <option value="" selected>Escolha...</option>
+                                                    <option value="pequeno">Pequeno</option>
+                                                    <option value="medio">Médio</option>
+                                                    <option value="grande">Grande</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="cor">Cor e marcas</label>
+                                                <input class="form-control" id="cor" name="cor" type="text" placeholder="Caramelo, mancha branca no peito">
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="microchip">Microchip</label>
+                                                <input class="form-control" id="microchip" name="microchip" type="text" inputmode="numeric" placeholder="15 dígitos, se tiver" maxlength="15" pattern="[0-9]{15}">
+                                                <div class="invalid-feedback">O número do microchip tem 15 dígitos.</div>
+                                            </div>
+
+                                            <div class="form-group col-12">
+                                                <span class="rotulo d-block">Sexo</span>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input class="custom-control-input" id="sexo-macho" name="sexo" type="radio" value="macho">
+                                                    <label class="custom-control-label" for="sexo-macho">Macho</label>
+                                                </div>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input class="custom-control-input" id="sexo-femea" name="sexo" type="radio" value="femea">
+                                                    <label class="custom-control-label" for="sexo-femea">Fêmea</label>
+                                                </div>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input class="custom-control-input" id="sexo-nao-sei" name="sexo" type="radio" value="nao_sei" checked>
+                                                    <label class="custom-control-label" for="sexo-nao-sei">Não sei</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-12">
+                                                <label for="foto">Foto do pet</label>
+                                                <div class="foto-pet">
+                                                    <div class="foto-pet-preview" id="foto-preview" aria-hidden="true"><i class="fas fa-camera"></i></div>
+                                                    <div class="flex-grow-1">
+                                                        <input class="form-control-file" id="foto" name="foto" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="foto-ajuda">
+                                                        <p class="texto-ajuda mb-0 mt-1" id="foto-ajuda">JPG, PNG ou WEBP, até 5 MB. Uma foto nítida de corpo inteiro ajuda mais.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset class="grupo-form">
+                                        <legend>Onde e quando</legend>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="data-sumico">Data do desaparecimento <span class="obrigatorio">*</span></label>
+                                                <input class="form-control" id="data-sumico" name="data_sumico" type="date" required>
+                                                <div class="invalid-feedback">Informe a data, que não pode ser no futuro.</div>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="bairro">Bairro ou região <span class="obrigatorio">*</span></label>
+                                                <input class="form-control" id="bairro" name="bairro" type="text" placeholder="Asa Norte" required>
+                                                <div class="invalid-feedback">Informe onde o pet foi visto pela última vez.</div>
+                                            </div>
+
+                                            <div class="form-group col-12">
+                                                <label for="referencia">Ponto de referência</label>
+                                                <input class="form-control" id="referencia" name="referencia" type="text" placeholder="Perto da SQN 912, entrada do bloco C">
+                                            </div>
+
+                                            <div class="form-group col-12">
+                                                <label for="descricao">Como ele sumiu e como se comporta</label>
+                                                <textarea class="form-control" id="descricao" name="descricao" rows="3" placeholder="Fugiu pelo portão durante a chuva. Usa coleira azul, é medroso e não atende a estranhos."></textarea>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset class="grupo-form">
+                                        <legend>Contato do tutor</legend>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="tutor">Seu nome <span class="obrigatorio">*</span></label>
+                                                <input class="form-control" id="tutor" name="tutor" type="text" placeholder="Maria Souza" autocomplete="name" required>
+                                                <div class="invalid-feedback">Informe seu nome.</div>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="telefone">Telefone ou WhatsApp <span class="obrigatorio">*</span></label>
+                                                <input class="form-control" id="telefone" name="telefone" type="tel" placeholder="(61) 91234-5678" autocomplete="tel" pattern="\(\d{2}\) \d{4,5}-\d{4}" required>
+                                                <div class="invalid-feedback">Use o formato (61) 91234-5678.</div>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="email">E-mail</label>
+                                                <input class="form-control" id="email" name="email" type="email" placeholder="nome@exemplo.com" autocomplete="email">
+                                                <div class="invalid-feedback">Confira o e-mail digitado.</div>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <span class="rotulo d-block">Prefiro ser avisado por</span>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input class="custom-control-input" id="contato-whatsapp" name="preferencia_contato" type="radio" value="whatsapp" checked>
+                                                    <label class="custom-control-label" for="contato-whatsapp">WhatsApp</label>
+                                                </div>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input class="custom-control-input" id="contato-ligacao" name="preferencia_contato" type="radio" value="ligacao">
+                                                    <label class="custom-control-label" for="contato-ligacao">Ligação</label>
+                                                </div>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input class="custom-control-input" id="contato-email" name="preferencia_contato" type="radio" value="email">
+                                                    <label class="custom-control-label" for="contato-email">E-mail</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-12 mb-0">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input" id="exibir-telefone" name="exibir_telefone" type="checkbox" value="sim" checked>
+                                                    <label class="custom-control-label" for="exibir-telefone">Mostrar meu telefone no anúncio público</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mt-2">
+                                                    <input class="custom-control-input" id="recompensa" name="recompensa" type="checkbox" value="sim">
+                                                    <label class="custom-control-label" for="recompensa">Ofereço recompensa</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <div class="acoes-form">
+                                        <button class="btn btn-primary" type="submit">
+                                            <i class="fas fa-bullhorn mr-1" aria-hidden="true"></i> Registrar desaparecimento
+                                        </button>
+                                        <button class="btn btn-outline-ceub" type="reset">Limpar campos</button>
+                                    </div>
+                                </form>
+                            </section>
+                        </div>
+
+                        <!-- Casos recentes -->
+                        <div class="col-xl-5">
+                            <section class="painel painel-casos" id="casos" aria-labelledby="titulo-casos">
+                                <h2 class="painel-titulo" id="titulo-casos">Casos recentes</h2>
+                                <p class="painel-descricao">Viu algum desses pets? Fale com o tutor pelo anúncio.</p>
+
+                                <div class="filtros-status" role="group" aria-label="Filtrar por situação">
+                                    <button class="filtro" type="button" data-filtro="todos" aria-pressed="true">Todos</button>
+                                    <button class="filtro" type="button" data-filtro="perdido" aria-pressed="false">Perdidos</button>
+                                    <button class="filtro" type="button" data-filtro="avistado" aria-pressed="false">Avistados</button>
+                                    <button class="filtro" type="button" data-filtro="reunido" aria-pressed="false">Reunidos</button>
+                                </div>
+
+                                <ul class="lista-casos" id="lista-casos" aria-live="polite">
+                                    <li class="caso" data-status="perdido">
+                                        <span class="caso-avatar" aria-hidden="true"><i class="fas fa-dog"></i></span>
+                                        <div class="caso-info">
+                                            <span class="caso-nome">Thor</span>
+                                            <span class="caso-detalhe">Vira-lata caramelo, porte médio, coleira azul</span>
+                                            <span class="caso-local"><i class="fas fa-map-marker-alt" aria-hidden="true"></i>Asa Norte, SQN 912</span>
+                                        </div>
+                                        <div class="caso-status">
+                                            <span class="selo selo-perdido">Perdido</span>
+                                            <time datetime="2026-09-22">desde 22/09</time>
+                                            <button class="btn-reunido" type="button">Marcar como reunido</button>
+                                        </div>
+                                    </li>
+                                    <li class="caso" data-status="avistado">
+                                        <span class="caso-avatar" aria-hidden="true"><i class="fas fa-cat"></i></span>
+                                        <div class="caso-info">
+                                            <span class="caso-nome">Mel</span>
+                                            <span class="caso-detalhe">Gata tricolor, pequena, castrada</span>
+                                            <span class="caso-local"><i class="fas fa-map-marker-alt" aria-hidden="true"></i>Águas Claras, Rua 25 Norte</span>
+                                        </div>
+                                        <div class="caso-status">
+                                            <span class="selo selo-avistado">Avistado</span>
+                                            <time datetime="2026-09-20">desde 20/09</time>
+                                            <button class="btn-reunido" type="button">Marcar como reunido</button>
+                                        </div>
+                                    </li>
+                                    <li class="caso" data-status="perdido">
+                                        <span class="caso-avatar" aria-hidden="true"><i class="fas fa-dog"></i></span>
+                                        <div class="caso-info">
+                                            <span class="caso-nome">Bolinha</span>
+                                            <span class="caso-detalhe">Shih-tzu branco e bege, pequeno</span>
+                                            <span class="caso-local"><i class="fas fa-map-marker-alt" aria-hidden="true"></i>Sudoeste, CLSW 103</span>
+                                        </div>
+                                        <div class="caso-status">
+                                            <span class="selo selo-perdido">Perdido</span>
+                                            <time datetime="2026-09-18">desde 18/09</time>
+                                            <button class="btn-reunido" type="button">Marcar como reunido</button>
+                                        </div>
+                                    </li>
+                                    <li class="caso" data-status="avistado">
+                                        <span class="caso-avatar" aria-hidden="true"><i class="fas fa-dove"></i></span>
+                                        <div class="caso-info">
+                                            <span class="caso-nome">Kiwi</span>
+                                            <span class="caso-detalhe">Calopsita cinza, crista amarela</span>
+                                            <span class="caso-local"><i class="fas fa-map-marker-alt" aria-hidden="true"></i>Guará II, QE 38</span>
+                                        </div>
+                                        <div class="caso-status">
+                                            <span class="selo selo-avistado">Avistado</span>
+                                            <time datetime="2026-09-15">desde 15/09</time>
+                                            <button class="btn-reunido" type="button">Marcar como reunido</button>
+                                        </div>
+                                    </li>
+                                    <li class="caso" data-status="reunido">
+                                        <span class="caso-avatar" aria-hidden="true"><i class="fas fa-dog"></i></span>
+                                        <div class="caso-info">
+                                            <span class="caso-nome">Nina</span>
+                                            <span class="caso-detalhe">Border collie preta e branca, grande</span>
+                                            <span class="caso-local"><i class="fas fa-map-marker-alt" aria-hidden="true"></i>Taguatinga Norte, QNL 5</span>
+                                        </div>
+                                        <div class="caso-status">
+                                            <span class="selo selo-reunido">Reunido</span>
+                                            <time datetime="2026-09-10">desde 10/09</time>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <p class="lista-vazia d-none" id="lista-vazia">Nenhum caso encontrado. Confira a grafia da busca ou escolha outra situação.</p>
+
+                                <a class="chamada-adocao" href="adocao.html">
+                                    <i class="fas fa-home" aria-hidden="true"></i>
+                                    <span><strong>Pets sem tutor</strong>Veja os animais que o CEUB resgatou e que estão prontos para adoção.</span>
+                                </a>
+                            </section>
+                        </div>
+
+                    </div>
+
+                </main>
+                <!-- Fim do conteúdo -->
+
+            </div>
+
+            <!-- Footer -->
+            <footer class="sticky-footer">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; CEUB 2026</span>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Voltar ao topo -->
+    <a class="scroll-to-top rounded" href="#page-top" aria-label="Voltar ao topo">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Modal de saída -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Sair da conta?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">Os casos que você registrou continuam publicados.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-ceub" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="#">Sair</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript: jQuery + Bootstrap 4.6 (nome do arquivo corrigido: bootstrap_bundle.js) -->
+    <script src="jquery.js"></script>
+    <script src="bootstrap_bundle.js"></script>
+    <!-- Comportamento comum a todas as telas: sidebar e botão de voltar ao topo -->
+    <script src="ceub-layout.js"></script>
+
+    <script>
+    (function ($) {
+        'use strict';
+
+        /* ---------- Lista de casos: filtros, busca e contadores ---------- */
+        var $lista = $('#lista-casos');
+        var filtroAtual = 'todos';
+        var termoBusca = '';
+
+        function normalizar(texto) {
+            return (texto || '').toString().toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function atualizarContadores() {
+            ['perdido', 'avistado', 'reunido'].forEach(function (status) {
+                var total = $lista.children('[data-status="' + status + '"]').length;
+                $('[data-contador="' + status + '"]').text(total);
+            });
+        }
+
+        function aplicarFiltros() {
+            var visiveis = 0;
+            $lista.children('.caso').each(function () {
+                var $caso = $(this);
+                var passaStatus = filtroAtual === 'todos' || $caso.data('status') === filtroAtual;
+                var passaBusca = !termoBusca || normalizar($caso.find('.caso-info').text()).indexOf(termoBusca) !== -1;
+                var mostrar = passaStatus && passaBusca;
+                $caso.toggleClass('d-none', !mostrar);
+                if (mostrar) { visiveis++; }
+            });
+            $('#lista-vazia').toggleClass('d-none', visiveis > 0);
+        }
+
+        function definirFiltro(status) {
+            filtroAtual = status;
+            $('.filtro').attr('aria-pressed', 'false');
+            $('.filtro[data-filtro="' + status + '"]').attr('aria-pressed', 'true');
+            aplicarFiltros();
+        }
+
+        $('.filtro').on('click', function () {
+            definirFiltro($(this).data('filtro'));
+        });
+
+        $('[data-filtro-link]').on('click', function () {
+            definirFiltro($(this).data('filtro-link'));
+        });
+
+        $('[data-busca]').on('input', function () {
+            termoBusca = normalizar($(this).val().trim());
+            $('[data-busca]').not(this).val($(this).val());
+            aplicarFiltros();
+        });
+
+        $('[data-busca-form]').on('submit', function (e) {
+            e.preventDefault();
+            document.getElementById('casos').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        // Marcar como reunido
+        $lista.on('click', '.btn-reunido', function () {
+            var $caso = $(this).closest('.caso');
+            $caso.attr('data-status', 'reunido').data('status', 'reunido');
+            $caso.find('.selo').attr('class', 'selo selo-reunido').text('Reunido');
+            $(this).remove();
+            atualizarContadores();
+            aplicarFiltros();
+        });
+
+        /* ---------- Formulário ---------- */
+        var form = document.getElementById('form-pet');
+        var $dataSumico = $('#data-sumico');
+        var $preview = $('#foto-preview');
+        var fotoUrl = null;
+
+        // Data máxima = hoje (não existe desaparecimento no futuro)
+        var hoje = new Date();
+        var hojeIso = new Date(hoje.getTime() - hoje.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+        $dataSumico.attr('max', hojeIso);
+
+        // Máscara simples de telefone: (61) 91234-5678
+        $('#telefone').on('input', function () {
+            var d = this.value.replace(/\D/g, '').slice(0, 11);
+            var f = d;
+            if (d.length > 2) { f = '(' + d.slice(0, 2) + ') ' + d.slice(2); }
+            if (d.length > 6) {
+                var meio = d.length === 11 ? 7 : 6;
+                f = '(' + d.slice(0, 2) + ') ' + d.slice(2, meio) + '-' + d.slice(meio);
+            }
+            this.value = f;
+        });
+
+        $('#microchip').on('input', function () {
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        // Pré-visualização e validação da foto
+        $('#foto').on('change', function () {
+            var arquivo = this.files && this.files[0];
+            this.setCustomValidity('');
+            if (fotoUrl) { URL.revokeObjectURL(fotoUrl); fotoUrl = null; }
+            $preview.removeClass('tem-foto').css('background-image', '');
+
+            if (!arquivo) { return; }
+            if (arquivo.size > 5 * 1024 * 1024) {
+                this.setCustomValidity('A foto passa de 5 MB.');
+                this.value = '';
+                $('#foto-ajuda').text('A foto passa de 5 MB. Escolha uma imagem menor.');
+                return;
+            }
+            $('#foto-ajuda').text('JPG, PNG ou WEBP, até 5 MB. Uma foto nítida de corpo inteiro ajuda mais.');
+            fotoUrl = URL.createObjectURL(arquivo);
+            $preview.addClass('tem-foto').css('background-image', 'url("' + fotoUrl + '")');
+        });
+
+        var icones = { cao: 'fa-dog', gato: 'fa-cat', ave: 'fa-dove', outro: 'fa-paw' };
+
+        function textoSeguro(texto) {
+            return $('<div>').text(texto).html();
+        }
+
+        function formatarData(iso) {
+            var p = iso.split('-');
+            return p[2] + '/' + p[1];
+        }
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Data no futuro é inválida mesmo que o navegador ignore o "max"
+            var data = $dataSumico.val();
+            $dataSumico[0].setCustomValidity(data && data > hojeIso ? 'Data no futuro' : '');
+
+            if (!form.checkValidity()) {
+                form.classList.add('was-validated');
+                var primeiroInvalido = form.querySelector(':invalid');
+                if (primeiroInvalido) { primeiroInvalido.focus(); }
+                return;
+            }
+
+            var nome = $('#nome-pet').val().trim();
+            var especie = $('#especie').val();
+            var detalhes = [
+                $('#raca').val().trim() || 'Sem raça definida',
+                $('#cor').val().trim(),
+                $('#porte option:selected').val() ? 'porte ' + $('#porte option:selected').text().toLowerCase() : ''
+            ].filter(Boolean).join(', ');
+            var local = [$('#bairro').val().trim(), $('#referencia').val().trim()].filter(Boolean).join(', ');
+
+            var avatar = fotoUrl
+                ? '<img src="' + fotoUrl + '" alt="">'
+                : '<i class="fas ' + (icones[especie] || 'fa-paw') + '"></i>';
+
+            var $novo = $(
+                '<li class="caso caso-novo" data-status="perdido">' +
+                    '<span class="caso-avatar" aria-hidden="true">' + avatar + '</span>' +
+                    '<div class="caso-info">' +
+                        '<span class="caso-nome">' + textoSeguro(nome) + '</span>' +
+                        '<span class="caso-detalhe">' + textoSeguro(detalhes) + '</span>' +
+                        '<span class="caso-local"><i class="fas fa-map-marker-alt" aria-hidden="true"></i>' + textoSeguro(local) + '</span>' +
+                    '</div>' +
+                    '<div class="caso-status">' +
+                        '<span class="selo selo-perdido">Perdido</span>' +
+                        '<time datetime="' + data + '">desde ' + formatarData(data) + '</time>' +
+                        '<button class="btn-reunido" type="button">Marcar como reunido</button>' +
+                    '</div>' +
+                '</li>'
+            );
+
+            $lista.prepend($novo);
+            fotoUrl = null; // a URL agora pertence ao item da lista
+            atualizarContadores();
+            aplicarFiltros();
+
+            $('#alerta-registro')
+                .text('Desaparecimento de ' + nome + ' registrado. O caso já aparece em "Casos recentes".')
+                .removeClass('d-none')
+                .trigger('focus');
+
+            form.reset();
+        });
+
+        form.addEventListener('reset', function () {
+            form.classList.remove('was-validated');
+            if (fotoUrl) { URL.revokeObjectURL(fotoUrl); fotoUrl = null; }
+            $preview.removeClass('tem-foto').css('background-image', '');
+            $('#foto-ajuda').text('JPG, PNG ou WEBP, até 5 MB. Uma foto nítida de corpo inteiro ajuda mais.');
+        });
+
+        atualizarContadores();
+        aplicarFiltros();
+
+    })(jQuery);
+    </script>
+
+</body>
+
+</html>

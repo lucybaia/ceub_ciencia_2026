@@ -1,0 +1,915 @@
+/*
+ * CEUB Pets — tema sobre o SB Admin 2
+ * Carregar DEPOIS de sb-admin-2.css. Não altera o CSS original do template.
+ * Cores extraídas do logo oficial (versão condensada).
+ */
+
+ :root {
+    --ceub-roxo: #3C0E4B;          /* cor principal do logo */
+    --ceub-roxo-escuro: #280934;   /* sombra do roxo, para hover e fundo profundo */
+    --ceub-magenta: #AF2883;       /* haste do "U" no logo */
+    --ceub-magenta-escuro: #8E1F6A;
+    --ceub-lilas: #F5EFF7;         /* fundo de página */
+    --ceub-lilas-borda: #E4D7E9;
+    --ceub-tinta: #232023;         /* texto principal */
+    --ceub-cinza: #6B6070;         /* texto secundário */
+
+    --status-perdido: #AF2883;
+    --status-avistado: #9A6310;
+    --status-avistado-bg: #FBF1DF;
+    --status-reunido: #1D7753;
+    --status-reunido-bg: #E3F3EB;
+
+    --raio: 0.5rem;
+}
+
+/* ---------- Base ---------- */
+
+body {
+    font-family: "Outfit", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    color: var(--ceub-tinta);
+    background-color: var(--ceub-lilas);
+}
+
+#content-wrapper {
+    background-color: var(--ceub-lilas);
+}
+
+a {
+    color: var(--ceub-magenta);
+}
+
+a:hover {
+    color: var(--ceub-magenta-escuro);
+}
+
+/* O SB Admin remove o outline de todos os links; devolvemos o foco visível para teclado */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--ceub-magenta);
+    outline-offset: 2px;
+}
+
+.text-primary {
+    color: var(--ceub-roxo) !important;
+}
+
+/* ---------- Sidebar ---------- */
+
+.sidebar-ceub {
+    background-color: var(--ceub-roxo);
+    background-image: linear-gradient(180deg, var(--ceub-roxo) 0%, var(--ceub-roxo-escuro) 100%);
+}
+
+/* O logo tem fundo branco: ele vive numa placa branca no topo da sidebar */
+.sidebar .sidebar-brand.sidebar-brand-ceub {
+    height: auto;
+    padding: 1rem 0.75rem;
+    background-color: #fff;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.sidebar-brand-ceub img {
+    display: block;
+    width: 150px;
+    max-width: 100%;
+    height: auto;
+}
+
+.sidebar-brand-ceub .sidebar-brand-nome {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--ceub-magenta);
+    text-align: center;
+}
+
+.sidebar-dark hr.sidebar-divider {
+    border-top-color: rgba(255, 255, 255, 0.14);
+}
+
+/* Títulos da sidebar em caixa normal, não em caixa alta */
+.sidebar .sidebar-heading,
+.sidebar-dark .sidebar-heading {
+    text-transform: none !important; /* o template força uppercase com !important */
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.sidebar-dark .nav-item .nav-link {
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.sidebar-dark .nav-item .nav-link i {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.sidebar-dark .nav-item .nav-link:hover,
+.sidebar-dark .nav-item .nav-link:focus,
+.sidebar-dark .nav-item .nav-link:hover i,
+.sidebar-dark .nav-item .nav-link:focus i {
+    color: #fff;
+}
+
+/* Item ativo: a haste magenta do logo vira o marcador de "você está aqui" */
+.sidebar-dark .nav-item.active .nav-link {
+    position: relative;
+    color: #fff;
+    font-weight: 600;
+}
+
+.sidebar-dark .nav-item.active .nav-link i {
+    color: #fff;
+}
+
+.sidebar-dark .nav-item.active .nav-link::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.35rem;
+    bottom: 0.35rem;
+    width: 5px;
+    background-color: var(--ceub-magenta);
+}
+
+.sidebar .nav-item .collapse .collapse-inner .collapse-item,
+.sidebar .nav-item .collapsing .collapse-inner .collapse-item {
+    color: var(--ceub-tinta);
+}
+
+.sidebar .nav-item .collapse .collapse-inner .collapse-item:hover,
+.sidebar .nav-item .collapsing .collapse-inner .collapse-item:hover {
+    background-color: var(--ceub-lilas);
+}
+
+.sidebar .nav-item .collapse .collapse-inner .collapse-item.active,
+.sidebar .nav-item .collapsing .collapse-inner .collapse-item.active {
+    color: var(--ceub-magenta);
+}
+
+.sidebar .nav-item .collapse .collapse-inner .collapse-header,
+.sidebar .nav-item .collapsing .collapse-inner .collapse-header {
+    text-transform: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--ceub-cinza);
+}
+
+.sidebar-dark #sidebarToggle {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.sidebar-dark #sidebarToggle:hover {
+    background-color: rgba(255, 255, 255, 0.22);
+}
+
+/* ---------- Topbar ---------- */
+
+.topbar {
+    border-bottom: 1px solid var(--ceub-lilas-borda);
+    box-shadow: none !important;
+}
+
+.topbar #sidebarToggleTop {
+    color: var(--ceub-roxo);
+}
+
+.navbar-search .form-control {
+    background-color: var(--ceub-lilas) !important;
+    min-width: 18rem;
+}
+
+.avatar-iniciais {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background-color: var(--ceub-magenta);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.topbar .nav-item .nav-link .nome-usuario {
+    color: var(--ceub-cinza);
+}
+
+/* ---------- Botões e formulários ---------- */
+
+.btn-primary {
+    background-color: var(--ceub-roxo);
+    border-color: var(--ceub-roxo);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:not(:disabled):not(.disabled):active {
+    background-color: var(--ceub-roxo-escuro);
+    border-color: var(--ceub-roxo-escuro);
+}
+
+.btn-primary:focus,
+.btn-primary:not(:disabled):not(.disabled):active:focus {
+    box-shadow: 0 0 0 0.2rem rgba(175, 40, 131, 0.35);
+}
+
+.btn-outline-ceub {
+    color: var(--ceub-roxo);
+    border-color: var(--ceub-lilas-borda);
+    background-color: #fff;
+}
+
+.btn-outline-ceub:hover {
+    color: var(--ceub-roxo);
+    background-color: var(--ceub-lilas);
+    border-color: var(--ceub-roxo);
+}
+
+.form-control,
+.custom-select {
+    color: var(--ceub-tinta);
+    border-color: var(--ceub-lilas-borda);
+    border-radius: var(--raio);
+}
+
+.form-control:focus,
+.custom-select:focus {
+    border-color: var(--ceub-magenta);
+    box-shadow: 0 0 0 0.2rem rgba(175, 40, 131, 0.18);
+}
+
+.form-control::placeholder {
+    color: #A79BAB;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    background-color: var(--ceub-magenta);
+    border-color: var(--ceub-magenta);
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+    box-shadow: 0 0 0 0.2rem rgba(175, 40, 131, 0.2);
+}
+
+.custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
+    border-color: var(--ceub-magenta);
+}
+
+label,
+.rotulo {
+    font-weight: 500;
+    color: var(--ceub-tinta);
+    margin-bottom: 0.35rem;
+}
+
+.obrigatorio {
+    color: var(--ceub-magenta);
+}
+
+.texto-ajuda {
+    font-size: 0.85rem;
+    color: var(--ceub-cinza);
+}
+
+/* ---------- Cabeçalho da página ---------- */
+
+.cabecalho-pagina {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.25rem;
+    margin-bottom: 1.75rem;
+}
+
+/* A haste magenta sobe acima da linha do título, como no "U" do logo */
+.titulo-pagina {
+    position: relative;
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--ceub-roxo);
+}
+
+.titulo-pagina::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -0.45em;
+    bottom: 0.08em;
+    width: 6px;
+    background-color: var(--ceub-magenta);
+}
+
+.subtitulo-pagina {
+    max-width: 36rem;
+    margin: 0.6rem 0 0 1.1rem;
+    color: var(--ceub-cinza);
+}
+
+.resumo-casos {
+    display: flex;
+    gap: 1.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.resumo-casos li {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+}
+
+.resumo-casos strong {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--ceub-roxo);
+}
+
+.resumo-casos span {
+    font-size: 0.85rem;
+    color: var(--ceub-cinza);
+}
+
+.resumo-casos .resumo-perdidos strong {
+    color: var(--status-perdido);
+}
+
+/* ---------- Painéis ---------- */
+
+.painel {
+    background-color: #fff;
+    border: 1px solid var(--ceub-lilas-borda);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.painel-titulo {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--ceub-roxo);
+    margin-bottom: 0.25rem;
+}
+
+.painel-descricao {
+    color: var(--ceub-cinza);
+    margin-bottom: 1.25rem;
+}
+
+.grupo-form {
+    border: 0;
+    padding: 0;
+    margin: 0 0 1.5rem;
+}
+
+.grupo-form legend {
+    width: auto;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ceub-roxo);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--ceub-lilas);
+    display: block;
+    width: 100%;
+}
+
+/* Upload de foto com pré-visualização */
+.foto-pet {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.foto-pet-preview {
+    flex: 0 0 auto;
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: var(--raio);
+    border: 2px dashed var(--ceub-lilas-borda);
+    background: var(--ceub-lilas) center / cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #B9A9BF;
+    font-size: 1.6rem;
+}
+
+.foto-pet-preview.tem-foto {
+    border-style: solid;
+    border-color: var(--ceub-magenta);
+}
+
+.foto-pet-preview.tem-foto i {
+    display: none;
+}
+
+.acoes-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--ceub-lilas);
+}
+
+/* ---------- Lista de casos ---------- */
+
+@media (min-width: 1200px) {
+    .painel-casos {
+        position: sticky;
+        top: 1.5rem;
+    }
+}
+
+.filtros-status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+}
+
+.filtro {
+    border: 1px solid var(--ceub-lilas-borda);
+    background: #fff;
+    color: var(--ceub-cinza);
+    border-radius: 999px;
+    padding: 0.3rem 0.85rem;
+    font-size: 0.85rem;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.filtro:hover {
+    border-color: var(--ceub-roxo);
+    color: var(--ceub-roxo);
+}
+
+.filtro[aria-pressed="true"] {
+    background-color: var(--ceub-roxo);
+    border-color: var(--ceub-roxo);
+    color: #fff;
+}
+
+.lista-casos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.caso {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--ceub-lilas);
+}
+
+.caso:last-child {
+    border-bottom: 0;
+}
+
+.caso-avatar {
+    flex: 0 0 auto;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--raio);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--ceub-lilas);
+    color: var(--ceub-roxo);
+    font-size: 1.25rem;
+    overflow: hidden;
+}
+
+.caso-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.caso-info {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.35;
+}
+
+.caso-nome {
+    font-weight: 600;
+    color: var(--ceub-tinta);
+}
+
+.caso-detalhe,
+.caso-local {
+    font-size: 0.875rem;
+    color: var(--ceub-cinza);
+}
+
+.caso-local i {
+    color: var(--ceub-magenta);
+    margin-right: 0.2rem;
+}
+
+.caso-status {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.35rem;
+    text-align: right;
+}
+
+.caso-status time {
+    font-size: 0.8rem;
+    color: var(--ceub-cinza);
+}
+
+.selo {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.selo-perdido {
+    background-color: #F7E4F0;
+    color: var(--status-perdido);
+}
+
+.selo-avistado {
+    background-color: var(--status-avistado-bg);
+    color: var(--status-avistado);
+}
+
+.selo-reunido {
+    background-color: var(--status-reunido-bg);
+    color: var(--status-reunido);
+}
+
+.btn-reunido {
+    border: 0;
+    background: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: 0.8rem;
+    color: var(--status-reunido);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.lista-vazia {
+    padding: 1.5rem 0.5rem;
+    text-align: center;
+    color: var(--ceub-cinza);
+}
+
+/* Destaque breve do caso recém-registrado */
+.caso-novo {
+    animation: casoNovo 1.6s ease-out;
+}
+
+@keyframes casoNovo {
+    from { background-color: #F7E4F0; }
+    to { background-color: transparent; }
+}
+
+/* ---------- Alertas, rodapé, modal ---------- */
+
+.alerta-ceub {
+    border: 0;
+    border-left: 5px solid var(--status-reunido);
+    background-color: var(--status-reunido-bg);
+    color: #134B35;
+    border-radius: var(--raio);
+}
+
+.sticky-footer {
+    background-color: transparent !important;
+}
+
+.sticky-footer .copyright {
+    color: var(--ceub-cinza);
+}
+
+.scroll-to-top {
+    background-color: var(--ceub-magenta);
+}
+
+.scroll-to-top:hover {
+    background-color: var(--ceub-magenta-escuro);
+}
+
+.modal-title {
+    color: var(--ceub-roxo);
+    font-weight: 600;
+}
+
+/* ==========================================================
+ * Tela principal: chamada para a tela de adoção
+ * ========================================================== */
+
+.chamada-adocao {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    margin-top: 1.25rem;
+    padding: 1rem;
+    border-radius: var(--raio);
+    background-color: var(--ceub-roxo);
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+}
+
+.chamada-adocao:hover,
+.chamada-adocao:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: var(--ceub-roxo-escuro);
+}
+
+.chamada-adocao i {
+    margin-top: 0.2rem;
+    color: #E48CC6;
+    font-size: 1.1rem;
+}
+
+.chamada-adocao strong {
+    display: block;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* ==========================================================
+ * Tela de adoção: filtros e tabela
+ * ========================================================== */
+
+.barra-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.barra-filtros .campo-filtro {
+    display: flex;
+    flex-direction: column;
+    min-width: 9.5rem;
+}
+
+.barra-filtros .campo-busca {
+    flex: 1 1 16rem;
+}
+
+.barra-filtros label {
+    font-size: 0.85rem;
+    color: var(--ceub-cinza);
+    margin-bottom: 0.25rem;
+}
+
+.contagem-tabela {
+    margin: 0 0 0.75rem;
+    font-size: 0.9rem;
+    color: var(--ceub-cinza);
+}
+
+.tabela-rolagem {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tabela-adocao {
+    width: 100%;
+    min-width: 52rem;
+    margin: 0;
+    border-collapse: collapse;
+    color: var(--ceub-tinta);
+}
+
+.tabela-adocao thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 0.7rem 0.85rem;
+    background-color: var(--ceub-lilas);
+    border-bottom: 2px solid var(--ceub-lilas-borda);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ceub-roxo);
+    text-align: left;
+    white-space: nowrap;
+}
+
+.tabela-adocao thead th:first-child {
+    border-top-left-radius: var(--raio);
+}
+
+.tabela-adocao thead th:last-child {
+    border-top-right-radius: var(--raio);
+}
+
+.tabela-adocao tbody td {
+    padding: 0.85rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--ceub-lilas);
+}
+
+.tabela-adocao tbody tr:hover td {
+    background-color: #FCFAFD;
+}
+
+.tabela-adocao .col-acao {
+    text-align: right;
+}
+
+/* Cabeçalho ordenável */
+.ordenar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+
+.ordenar i {
+    font-size: 0.75rem;
+    color: #B9A9BF;
+}
+
+th[aria-sort="ascending"] .ordenar i,
+th[aria-sort="descending"] .ordenar i {
+    color: var(--ceub-magenta);
+}
+
+/* Célula do pet */
+.pet-celula {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.pet-celula .caso-avatar {
+    width: 2.6rem;
+    height: 2.6rem;
+    font-size: 1.05rem;
+}
+
+.pet-nome {
+    display: block;
+    font-weight: 600;
+}
+
+.pet-raca,
+.texto-secundario {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--ceub-cinza);
+}
+
+/* Saúde */
+.etiquetas-saude {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+}
+
+.etiqueta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 0.3rem;
+    border: 1px solid var(--ceub-lilas-borda);
+    font-size: 0.78rem;
+    color: var(--ceub-tinta);
+    white-space: nowrap;
+}
+
+.etiqueta i {
+    font-size: 0.7rem;
+    color: var(--status-reunido);
+}
+
+.etiqueta-pendente {
+    color: var(--ceub-cinza);
+    border-style: dashed;
+}
+
+.etiqueta-pendente i {
+    color: var(--ceub-cinza);
+}
+
+/* Situação da adoção */
+.selo-disponivel {
+    background-color: var(--status-reunido-bg);
+    color: var(--status-reunido);
+}
+
+.selo-processo {
+    background-color: var(--status-avistado-bg);
+    color: var(--status-avistado);
+}
+
+.selo-adotado {
+    background-color: #EEE9F0;
+    color: var(--ceub-cinza);
+}
+
+.linha-adotado td {
+    color: var(--ceub-cinza);
+}
+
+.linha-vazia td {
+    padding: 2rem 1rem !important;
+    text-align: center;
+    color: var(--ceub-cinza);
+}
+
+.btn-adotar,
+.tabela-adocao .selo,
+.tabela-adocao .col-curta {
+    white-space: nowrap;
+}
+
+.pet-celula > div {
+    min-width: 8rem;
+}
+
+.tabela-adocao .etiquetas-saude {
+    min-width: 8.5rem;
+}
+
+/* Modal de interesse */
+.modal-pet-resumo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: var(--raio);
+    background-color: var(--ceub-lilas);
+}
+
+/* ---------- Responsivo ---------- */
+
+@media (max-width: 767.98px) {
+    .sidebar .sidebar-brand.sidebar-brand-ceub {
+        padding: 0.6rem 0.4rem;
+    }
+
+    .sidebar-brand-ceub .sidebar-brand-nome {
+        display: none;
+    }
+
+    .titulo-pagina {
+        font-size: 1.6rem;
+    }
+
+    .painel {
+        padding: 1.1rem;
+    }
+
+    .caso {
+        flex-wrap: wrap;
+    }
+
+    .caso-status {
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        padding-left: 3.85rem;
+        justify-content: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}
